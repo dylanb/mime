@@ -1,0 +1,16 @@
+{
+  "name": "mime",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "examples",
+    "test",
+    "*.md",
+    "LICENSE",
+    "Gruntfile.js",
+    "package.json",
+    "bower.json"
+  ],
+  "devDependencies": {
+  }
+}
