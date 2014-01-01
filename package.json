@@ -1,6 +1,6 @@
 {
   "name": "mime",
-  "description": "capturing mock module for Node.js TDD",
+  "description": "Capturing mock module for Node.js TDD",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -22,6 +22,7 @@
     "grunt-mocha-test": "~0.8.1",
     "bower": "*",
     "blanket": "*",
+    "yuidocjs": "*",
     "harmony-reflect": "*"
   }
 }
