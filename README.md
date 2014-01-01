@@ -15,7 +15,9 @@ Here is the source code of that shell script for you to copy/modify
 ###Grunt connect watch Proxy not defined error
 There is currently a bug when using Mime in tests that run continually using grunt connect watch. Due to the need to start node with the -harmony flag and the fact that watch always spawns a new instance of node, the -harmony flag is lost by the auto spawns.
 
-You can get around this by implementing your own custom watch task OR you can fix the bug in util.spawn that causes this. I took the latter approach. Here is the change
+See the fix that is currently in a pull request to fix this https://github.com/gruntjs/grunt/pull/877
+
+You can get around this by implementing your own custom watch task (tedious) OR you can fix the bug in util.spawn that causes this. I took the latter approach. Here is the change
 
 in the node_modules/grunt/lib/grunt/util.js file, look for this section of code:
 
