@@ -1,12 +1,12 @@
 #Mime (npm node-mimejs)
 
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)[![NPM](https://nodei.co/npm/node-mimejs.png?mini=true)](https://nodei.co/npm/node-mimejs/)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 Mime (npm node-mimejs module) is a capturing mock library for Node.js. It uses harmony-reflect Proxy objects (part of the ES 6 JavaScript standard) to allow for very simple capturing mock objects and capturing callbacks to be created and used within an automated test framework such as Mocha.
 
 ##Use
-
-    npm install node-mimejs
+    
+    [![npm install node-mimejs](https://nodei.co/npm/node-mimejs.png?mini=true)](https://nodei.co/npm/node-mimejs/)
 
 Then in your test files
 
