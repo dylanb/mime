@@ -6,7 +6,7 @@ Mime (npm node-mimejs module) is a capturing mock library for Node.js. It uses h
 
 ##Use
     
-    [![npm install node-mimejs](https://nodei.co/npm/node-mimejs.png?mini=true)](https://nodei.co/npm/node-mimejs/)
+    [!["npm install node-mimejs"](https://nodei.co/npm/node-mimejs.png?mini=true)](https://nodei.co/npm/node-mimejs/)
 
 Then in your test files
 
