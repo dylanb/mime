@@ -25,6 +25,9 @@ Here is the source code of that shell script for you to copy/modify
     echo $*
     /usr/local/bin/node -harmony $*
 
+##Documentation
+Documentation can be found in the docs folder. Also available with additional information here: http://dylanb.github.io/mime/overview.html
+
 ##Known Issues and Workarounds
 
 ###Grunt connect watch Proxy not defined error
