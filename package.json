@@ -1,16 +1,23 @@
 {
-  "name": "mime",
+  "name": "node-mimejs",
   "description": "Capturing mock module for Node.js TDD",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
+  "files": ["mime", "docs", "testdata", "examplesrc", "tests"],
+  "main": "mime/mime.js",
   "scripts": {
     "install": "bower install"
   },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/dylanb/mime.git"
+  },
   "dependencies": {
+    "harmony-reflect": "*"
   },
   "devDependencies": {
     "express": "3.x",
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "mocha": "~1.14.0",
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-watch": "~0.2.0",
@@ -22,7 +29,6 @@
     "grunt-mocha-test": "~0.8.1",
     "bower": "*",
     "blanket": "*",
-    "yuidocjs": "*",
-    "harmony-reflect": "*"
+    "yuidocjs": "*"
   }
 }
