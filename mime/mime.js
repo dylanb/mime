@@ -454,7 +454,7 @@ global.safeObject = function(f) {
         var assert = require('assert'),
             Cat, kitty, mongoose;
 
-        require('../../mime/mime');
+        require('node-mimejs');
 
         mongoose = new Mime();
         // When mongoose.model is called, it returns a new class
