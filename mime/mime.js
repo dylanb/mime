@@ -181,21 +181,21 @@ global.safeObject = function(f) {
      * and will act as an argument Mime. You can test the arguments passed to
      * these calls in the same way as calls to a mocked object function
      *
-     * @method _captor
+     * @method _spy
      * @param {String} name - the name you will use to test the arguments passed into the function when it was called
      * @param {Function} [callback] - optional parameter with a function to call when this method is called
      * @return {Function}
      * @example
         // This will add a "model" function to the mime instance that mimics
         // Mongoose's model function
-        mime._captor('model', function(name, schema) {
+        mime._spy('model', function(name, schema) {
             return this._createClass(function() {
                 // constructor function logic
                 ...
             });
         });
      */
-    Mime.prototype._captor = function(name, callback) {
+    Mime.prototype._spy = function(name, callback) {
         // Bind the 'this' to the function
         var boundThis = this;
         this[name] = function() {
@@ -379,14 +379,14 @@ global.safeObject = function(f) {
             method = methods[j];
             if (typeof method === 'string') {
                 // create a captor method
-                this[method] = this._captor(method);
+                this[method] = this._spy(method);
                 exports[method] = this[method];
             } else if (typeof method === 'object') {
                 for (symbol in method) {
                     if (method.hasOwnProperty(symbol)) {
                         if (typeof method[symbol] === 'function') {
                             // create a captor method
-                            this[symbol] = this._captor(symbol, method[symbol]);
+                            this[symbol] = this._spy(symbol, method[symbol]);
                         } else {
                             // this is some type of object, so create an attribute
                             this[symbol] = method[symbol];
@@ -458,7 +458,7 @@ global.safeObject = function(f) {
 
         mongoose = new Mime();
         // When mongoose.model is called, it returns a new class
-        mongoose._captor('model', function(name, defn) {
+        mongoose._spy('model', function(name, defn) {
             return this._createClass(function() {
             });
           });

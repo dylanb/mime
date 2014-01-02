@@ -97,17 +97,17 @@ describe('mime.js', function() {
                 'Log should contain only one call');
         });
     });
-    describe('_captor', function() {
+    describe('_spy', function() {
         it('Must create a function with the name we supplied', function () {
             var mime = new Mime();
-            mime._captor('newFunction');
+            mime._spy('newFunction');
             assert.ok(typeof mime.newFunction === 'function',
                 'new function should exist');
         });
 
         it('Must log calls to the new function', function () {
             var mime = new Mime();
-            mime._captor('newFunction');
+            mime._spy('newFunction');
             mime.newFunction();
             assert.ok(mime._wasCalledWithArguments('newFunction'),
                 'Even though the function exists, calls to it should log');
@@ -115,7 +115,7 @@ describe('mime.js', function() {
 
         it('Index must work on calls to the new function', function () {
             var mime = new Mime();
-            mime._captor('newFunction');
+            mime._spy('newFunction');
             mime.newFunction(1, 2, 3);
             mime.newFunction();
             assert.deepEqual(mime._getCallArguments('newFunction', 0), [1, 2, 3],
@@ -126,19 +126,19 @@ describe('mime.js', function() {
 
         it('Must return the function which, if called will also log', function () {
             var mime = new Mime(),
-                f = mime._captor('newFunction');
+                f = mime._spy('newFunction');
             f();
             assert.equal(mime.__callsMade.newFunction.length, 1,
                 'Event though the function exists, calls to it should log');
         });
         it('Must call the callback, if passed one', function () {
             var mime = new Mime(),
-                f = mime._captor('newFunction', function () { return 'calledme'; });
+                f = mime._spy('newFunction', function () { return 'calledme'; });
             assert.equal(f(), 'calledme', 'should call my callback function');
         });
         it('Must pass all the arguments to the callback, if passed arguments', function () {
             var mime = new Mime(),
-                f = mime._captor('newFunction', function (a, b, c) {
+                f = mime._spy('newFunction', function (a, b, c) {
                     return (a === 1 && b === 2 && c === 3);
                 });
             assert.ok(f(1, 2, 3), 'should pass all arguments to my callback');

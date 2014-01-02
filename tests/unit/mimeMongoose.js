@@ -3,7 +3,7 @@ var assert = require('assert'),
     mongoose;
 
 mongoose = global.mongoose = new Mime();
-mongoose._captor('model', function() {
+mongoose._spy('model', function() {
     return this._createClass(function() {
     });
   });

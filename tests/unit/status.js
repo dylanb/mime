@@ -35,7 +35,7 @@ describe('status.js', function() {
             // Setup the input data by addign it to our mock object
             request.query = { statusType : 'network' };
             
-            global.getNetworkStatus = thisObject._captor('getNetworkStatus');
+            global.getNetworkStatus = thisObject._spy('getNetworkStatus');
             statusCallback(request, response);
 
             // Test that getNetworkStatus was called
@@ -51,14 +51,14 @@ describe('status.js', function() {
         });
         it('Sensors status request will call the getSensorsStatus global', function () {
             request.query = { statusType : 'sensors' };
-            global.getSensorsStatus = thisObject._captor('getSensorsStatus');
+            global.getSensorsStatus = thisObject._spy('getSensorsStatus');
             statusCallback(request, response);
             assert.ok(thisObject._wasCalledWithArguments('getSensorsStatus'),
                 'Should have called getSensorsStatus');
         });
         it('All status request will call the getAllStatii global', function () {
             request.query = { statusType : 'all' };
-            global.getAllStatii = thisObject._captor('getAllStatii');
+            global.getAllStatii = thisObject._spy('getAllStatii');
             statusCallback(request, response);
             assert.ok(thisObject._wasCalledWithArguments('getAllStatii'),
                 'Should have called getAllStatii');
