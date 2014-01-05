@@ -15,6 +15,17 @@
   "dependencies": {
     "harmony-reflect": "*"
   },
+  "keywords": [
+    "Test Driven Development",
+    "Mock",
+    "Mocking",
+    "Spies",
+    "Spying",
+    "TDD",
+    "Dependency Mocking",
+    "Require",
+    "Mocking Classes"
+  ],
   "devDependencies": {
     "express": "3.x",
     "grunt": "~0.4.2",
