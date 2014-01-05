@@ -4,7 +4,7 @@ var assert = require('assert'),
 
 mongoose = global.mongoose = new Mime();
 mongoose._spy('model', function() {
-    return this._createClass(function() {
+    return this._createClass(function () {
     });
   });
 require('../../examplesrc/mongooseExample.js');
