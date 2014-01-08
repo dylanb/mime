@@ -78,6 +78,12 @@ describe('mime.js', function() {
             assert.ok(mime._wasCalledWithArguments('b', 1, 2, 3),
                 'Function was called and the arguments match');
         });
+        it('must return itself when a non-existing function is called', function () {
+            var mime = new Mime();
+            mime.doesntExist().doesntExist();
+            assert.equal(mime._getAllCallArguments('doesntExist').length, 2,
+                'call to undefined must return self');            
+        });
     });
     describe('_reset', function() {
         it('Must re-initialize the calls made log', function () {

@@ -29,48 +29,51 @@
  * @return {Class}
  */
 
+var proxiedObject = function(target) {
+    return Proxy(target, {
+        get: function(target, name, receiver) {
+            var rVal, newArguments, executionVal, i;
+            if (typeof target[name] === 'function' && name !== '__undefinedMethod__') {
+                // Existing function that is not the __undefinedMethod__ function
+                if (target.__constructors && target.__constructors.indexOf(name) !== -1) {
+                    // Constructor
+                    rVal = Reflect.get(target, name, arguments);
+                } else {
+                    rVal = function () {
+                        var executionVal = target[name].apply(target, arguments);
+                        return executionVal;
+                    };
+                }
+            } else if (typeof target[name] === 'undefined') {
+                /*
+                 * Either a non-existent function or a non-existent attribute
+                 * Cannot tell the difference, so we treat them all like functions
+                 */
+                rVal = function () {
+                    newArguments = [name];
+                    for (i = 0; i < arguments.length; i++) {
+                        newArguments.push(arguments[i]);
+                    }
+                    executionVal = target.__undefinedMethod__.apply(target, newArguments);
+                    return executionVal;
+                };
+            } else {
+                // Existing attribute or __undefinedMethod__ function
+                // Defer to the target
+                rVal = Reflect.get(target, name, arguments);
+            }
+            return rVal;
+        }
+    });
+}
 global.safeObject = function(f) {
     var retObject = Proxy(f, {
         construct: function(target, argArray) {
-            return Proxy(Reflect.construct(target, argArray), {
-                get: function(target, name, receiver) {
-                    var rVal, newArguments, executionVal, i;
-                    if (typeof target[name] === 'function' && name !== '__undefinedMethod__') {
-                        // Existing function that is not the __undefinedMethod__ function
-                        if (target.__constructors && target.__constructors.indexOf(name) !== -1) {
-                            // Constructor
-                            rVal = Reflect.get(target, name, arguments);
-                        } else {
-                            rVal = function () {
-                                var executionVal = target[name].apply(target, arguments);
-                                return executionVal;
-                            };
-                        }
-                    } else if (typeof target[name] === 'undefined') {
-                        /*
-                         * Either a non-existent function or a non-existent attribute
-                         * Cannot tell the difference, so we treat them all like functions
-                         */
-                        rVal = function () {
-                            newArguments = [name];
-                            for (i = 0; i < arguments.length; i++) {
-                                newArguments.push(arguments[i]);
-                            }
-                            executionVal = target.__undefinedMethod__.apply(target, newArguments);
-                            return executionVal;
-                        };
-                    } else {
-                        // Existing attribute or __undefinedMethod__ function
-                        // Defer to the target
-                        rVal = Reflect.get(target, name, arguments);
-                    }
-                    return rVal;
-                }
-            });
+            return proxiedObject(Reflect.construct(target, argArray));
         }
     });
     retObject.prototype.__undefinedMethod__ = function () {
-        return undefined;
+        return proxiedObject(this); // return this so we can chain the calls
     };
     return retObject;
 };
@@ -147,6 +150,7 @@ global.safeObject = function(f) {
             restOfArguments = Array.prototype.splice.call(arguments, 1, arguments.length-1);
         }
         this.__logCall(myName, restOfArguments);
+        return proxiedObject(this); // return this so we can chain the calls
     };
 
     /**
