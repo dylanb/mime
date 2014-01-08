@@ -1,16 +1,22 @@
 {
   "name": "node-mimejs",
-  "description": "Capturing mock module for Node.js TDD",
-  "version": "0.0.4",
+  "description": "Mock, Spy and Agument Captor module for Node.js TDD",
+  "version": "0.0.5",
   "private": false,
-  "files": ["mime", "docs", "testdata", "examplesrc", "tests"],
+  "files": [
+    "mime",
+    "docs",
+    "testdata",
+    "examplesrc",
+    "tests"
+  ],
   "main": "mime/mime.js",
   "scripts": {
     "install": "bower install"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/dylanb/mime.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dylanb/mime.git"
   },
   "dependencies": {
     "harmony-reflect": "*"
@@ -40,6 +46,11 @@
     "grunt-mocha-test": "~0.8.1",
     "bower": "*",
     "blanket": "*",
-    "yuidocjs": "*"
+    "yuidocjs": "*",
+    "gulp": "~3.2.4",
+    "gulp-blanket-mocha": "*",
+    "gulp-util": "~2.2.0",
+    "through": "~2.3.0",
+    "mocha": "~1.16.2"
   }
 }
