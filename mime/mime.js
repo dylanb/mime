@@ -14,21 +14,12 @@
  */
 
 /**
- * Given a constructor function as an argument, safeObject will create a new
- * JavaScript Class that will not throw an exception when a call is made to a
- * non-existent function member. A call will be made instead to the
- * '__undefinedMethod__' function which can be overridden to implement
- * functionality you find useful.
- * It will also look for symbols that have been registered with the target object's
- * __constructor array and will treat those functions in the way that constructor
- * functions need to be treated.
+ * Wrap any object in the safeobject proxy
  *
- * @class safeObject
- * @constructor
- * @param {Function} f - the constructor function that you want to use for your safe class
- * @return {Class}
+ * @private
+ * @param {Object} target - the object to be wrapped
+ * @return {Object}
  */
-
 var proxiedObject = function(target) {
     return Proxy(target, {
         get: function(target, name, receiver) {
@@ -66,6 +57,23 @@ var proxiedObject = function(target) {
         }
     });
 }
+
+/**
+ * Given a constructor function as an argument, safeObject will create a new
+ * JavaScript Class that will not throw an exception when a call is made to a
+ * non-existent function member. A call will be made instead to the
+ * '__undefinedMethod__' function which can be overridden to implement
+ * functionality you find useful.
+ * It will also look for symbols that have been registered with the target object's
+ * __constructor array and will treat those functions in the way that constructor
+ * functions need to be treated.
+ *
+ * @class safeObject
+ * @constructor
+ * @param {Function} f - the constructor function that you want to use for your safe class
+ * @return {Class}
+ */
+
 global.safeObject = function(f) {
     var retObject = Proxy(f, {
         construct: function(target, argArray) {
@@ -137,11 +145,12 @@ global.safeObject = function(f) {
 
     /**
      * Internal method that captures calls to undefined functions into the log
-     * structure
+     * structure. It returns self so that calls to it can be chained and it can
+     * be used for mocking chained objects
      *
      * @private
      * @method __undefinedMethod__
-     * @return {undefined}
+     * @return {self}
      */
     Mime.prototype.__undefinedMethod__ = function() {
         var myName = arguments[0],
