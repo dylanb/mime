@@ -1,7 +1,7 @@
 {
   "name": "node-mimejs",
   "description": "Mock, Spy and Agument Captor module for Node.js TDD",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": false,
   "files": [
     "mime",
@@ -19,7 +19,8 @@
     "url": "https://github.com/dylanb/mime.git"
   },
   "dependencies": {
-    "harmony-reflect": "*"
+    "harmony-reflect": "*",
+    "require-like": "*"
   },
   "keywords": [
     "Test Driven Development",

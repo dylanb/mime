@@ -89,10 +89,12 @@ global.safeObject = function(f) {
 (function(){
     var Mime,
         mockedModules = {},
-        util;
+        util, Sandbox, requireLike;
     
     require('harmony-reflect');
     util = require('util');
+    Sandbox = require('./sandbox').Sandbox;
+    requireLike = require('require-like');
 
     /*
      * Implement the require mocking 'globals'
@@ -355,6 +357,7 @@ global.safeObject = function(f) {
             return retVal;
         }
     }
+
     /**
      * Given a module name and a set of methods, create an exports structure for a module with
      * those methods and bind it to the this object. Put that structure into the global mocked
@@ -530,5 +533,39 @@ global.safeObject = function(f) {
 
         // Return the new class
         return actualConstructor;
+    };
+
+    function requirePartial(filename) {
+        var require = requireLike(filename, true);
+        return function(module) {
+            return Mime.require(module, require);
+        };
+    }
+    /**
+     * Given a test target path, require that module in a sandbox
+     *
+     * @method _sandboxRequire
+     * @param {String} path The name of the test target whose dependencies are to be intercepted
+     * @param {Funtion} require The test's require function (needed so that the test target can be
+     *                  resolved in the context of the test)
+     * @return {Object} The exports of the test target
+     * @example
+        
+        mime = new Mime()
+        mime._mockModule('something', ['callSomeFunction']);
+        exports = mime._sandboxRequire('../../testdata/dep4', require);
+        
+        ...
+        run the tests
+        ...
+
+        mime._unmockModule('something');
+     */
+    Mime.prototype._sandboxRequire = function(path, require) {
+        var filename = require.resolve(path),
+            proxyRequire = requirePartial(filename),
+            sandbox = new Sandbox();
+        sandbox.addGlobal('require', proxyRequire);
+        return sandbox.require(filename);
     };
 }());

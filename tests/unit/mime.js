@@ -329,4 +329,20 @@ describe('mime.js', function() {
             assert.ok(true, 'will only reach here if it worked');
         });
     });
+    describe('_sandboxRequire', function () {
+        it('Should be able to intercept a dependency\'s require', function () {
+            var mime, exports;
+            mime = new Mime()
+            mime._mockModule('something', ['callSomeFunction']);
+            exports = mime._sandboxRequire('../../testdata/dep4', require);            
+            mime._unmockModule('something');
+        });
+        it('should work with getMockedModuleMime', function () {
+            var mime, exports;
+            mime = Mime.getMockedModuleMime('something');
+            mime._mockModule('something', ['callSomeFunction']);
+            exports = mime._sandboxRequire('../../testdata/dep4', require);            
+            mime._unmockModule('something');
+        });
+    });
 });
