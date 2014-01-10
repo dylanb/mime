@@ -9,7 +9,7 @@ describe('Sandbox', function () {
         beforeEach(function () {
             filename = require.resolve('../../testdata/sandbox1');
             sandbox = new Sandbox();
-            exports = sandbox.require(filename)
+            exports = sandbox.require(filename);
         });
         it('should return the exports from a module you pass into it', function () {
             assert.ok(exports, 'exports should not be undefined');

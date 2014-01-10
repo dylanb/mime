@@ -1,4 +1,4 @@
-var Sandbox, vm, fs, code,
+var Sandbox, vm, fs,
     requireLike = require('require-like');
 
 vm = require('vm');
