@@ -38,7 +38,7 @@ describe('Sandbox', function () {
         it('should be able to get a custom require', function () {
             var filename, sandbox, exports;
 
-            filename = require.resolve('../../testdata/sandbox3'),
+            filename = require.resolve('../../testdata/sandbox3');
             sandbox = new Sandbox();
             sandbox.addGlobal(requireLike(filename, true));
             exports = sandbox.require(filename);

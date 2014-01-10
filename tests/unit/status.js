@@ -27,8 +27,8 @@ describe('status.js', function() {
     describe('Callback functionality', function() {
         var request, response, thisObject;
         beforeEach(function() {
-            request = new Mime(),
-            response = new Mime(),
+            request = new Mime();
+            response = new Mime();
             thisObject = new Mime();
         });
         it('Network status request will call the getNetworkStatus global, set the correct headers and call write and end', function () {

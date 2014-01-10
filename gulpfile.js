@@ -1,10 +1,18 @@
 var gulp = require('gulp'),
     exec = require('child_process').exec,
-    blanket = require('gulp-blanket-mocha');
+    blanket = require('gulp-blanket-mocha'),
+    mocha = require('gulp-mocha'),
+    jshint = require('gulp-jshint');
 
 gulp.task('default', function(){
   // place code for your default task here
   gulp.run('lint', 'mochaTest', 'docs');
+});
+
+gulp.task('lint', function () {
+    gulp.src(['mime/*.js', 'examplesrc/*.js', 'tests/**/*.js'])
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
 });
 
 gulp.task('docs', function () {
@@ -22,18 +30,14 @@ gulp.task('docs', function () {
 
 gulp.task('mochaTest', function () {
     gulp.src(['tests/**/*.js'], { read: false })
+        .pipe(mocha({
+            reporter: 'spec'
+        }))
         .pipe(blanket({
             instrument:['mime/mime.js'],
             captureFile: 'coverage.html',
-            coverage : {
-                reporter: 'html-cov',
-                quiet: true
-            },
-            test : {
-                reporter: 'spec'
-            }
+            reporter: 'html-cov'
         }))
-
 });
 
 gulp.task('watch', function () {
