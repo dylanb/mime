@@ -3,12 +3,20 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         jshint: {
-            src: {
+            examplesrc: {
                 options: {
                     jshintrc: "examplesrc/.jshintrc"
                 },
                 files: {
-                    src: "examplesrc/*.js"
+                    src: ["examplesrc/*.js"]
+                }
+            },
+            src: {
+                options: {
+                    jshintrc: "mime/.jshintrc"
+                },
+                files: {
+                    src: ["mime/*.js"]
                 }
             },
             tests: {
