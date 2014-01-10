@@ -22,7 +22,7 @@
  */
 var proxiedObject = function(target) {
     return Proxy(target, {
-        get: function(target, name, receiver) {
+        get: function(target, name) {
             var rVal, newArguments, executionVal, i;
             if (typeof target[name] === 'function' && name !== '__undefinedMethod__') {
                 // Existing function that is not the __undefinedMethod__ function
@@ -56,7 +56,7 @@ var proxiedObject = function(target) {
             return rVal;
         }
     });
-}
+};
 
 /**
  * Given a constructor function as an argument, safeObject will create a new
@@ -74,7 +74,7 @@ var proxiedObject = function(target) {
  * @return {Class}
  */
 
-global.safeObject = function(f) {
+var safeObject = global.safeObject = function(f) {
     var retObject = Proxy(f, {
         construct: function(target, argArray) {
             return proxiedObject(Reflect.construct(target, argArray));
@@ -178,7 +178,7 @@ global.safeObject = function(f) {
         callsToMe = this.__callsMade[name] || [];
         callsToMe.push(restOfArguments);
         this.__callsMade[name] = callsToMe;
-    }
+    };
 
     /**
      * This will reset the call log, so that old undefined calls are no longer present
@@ -214,8 +214,8 @@ global.safeObject = function(f) {
         // Bind the 'this' to the function
         var boundThis = this;
         this[name] = function() {
-            var args = arguments.length ? 
-                    Array.prototype.splice.call(arguments, 0, arguments.length) : 
+            var args = arguments.length ?
+                    Array.prototype.splice.call(arguments, 0, arguments.length) :
                     [];
             boundThis.__logCall(name, args);
             if (callback) {
@@ -356,7 +356,7 @@ global.safeObject = function(f) {
             retVal._mockModule(name, []);
             return retVal;
         }
-    }
+    };
 
     /**
      * Given a module name and a set of methods, create an exports structure for a module with
@@ -384,8 +384,10 @@ global.safeObject = function(f) {
      */
 
     Mime.prototype._mockModule = function(name, methods) {
-        var exports = this.__exports || {this:this},
-            j, attr, method, symbol;
+        var exports, j, attr, method, symbol;
+        this.__exports = this.__exports || {};
+        exports = this.__exports[name] || {this:this};
+            
         for (attr in exports) {
             if (attr !== 'this') {
                 delete exports[attr];
@@ -412,7 +414,7 @@ global.safeObject = function(f) {
                 }
             }
         }
-        this.__exports = exports;
+        this.__exports[name] = exports;
         __registerModule(name, exports);
     };
 
@@ -425,9 +427,11 @@ global.safeObject = function(f) {
      */
 
     Mime.prototype._unmockModule = function(name) {
-        var exports = this.__exports,
-            func, attr;
+        var exports, attr;
+        this.__exports = this.__exports || {};
+        exports = this.__exports[name] || {this:this};
 
+        console.log('before purge: ', exports);
         for (attr in exports) {
             if (attr !== 'this') {
                 // Remove the symbol from the exported symbols
@@ -441,6 +445,8 @@ global.safeObject = function(f) {
                 delete this.__callsMade[attr];
             }
         }
+        console.log('after purge: ', exports);
+        __registerModule(name, exports);
     };
 
     /**

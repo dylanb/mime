@@ -82,7 +82,7 @@ describe('mime.js', function() {
             var mime = new Mime();
             mime.doesntExist().doesntExist();
             assert.equal(mime._getAllCallArguments('doesntExist').length, 2,
-                'call to undefined must return self');            
+                'call to undefined must return self');
         });
     });
     describe('_reset', function() {
@@ -236,6 +236,18 @@ describe('mime.js', function() {
             dependency = require('../../testdata/dep1');
             dependency.f();
         });
+        it('should be able to handle multiple modules independently', function () {
+            var noexist = Mime.getMockedModuleMime('noexist'),
+                other = Mime.getMockedModuleMime('other'),
+                dependency, failed = true;
+            noexist._mockModule('noexist', ['callMe']);
+            other._mockModule('other', ['callMe']);
+            other._unmockModule('other');
+            dependency = require('../../testdata/dep1');
+            dependency.f();
+            assert.ok(noexist._wasCalledWithArguments('callMe'), 'should have called callMe with no arguments');
+            noexist._unmockModule('noexist');
+        });
         it('allows adding functions to mocked dependencies', function () {
             var noexist = Mime.getMockedModuleMime('noexist'),
                 dependency;
@@ -332,16 +344,16 @@ describe('mime.js', function() {
     describe('_sandboxRequire', function () {
         it('Should be able to intercept a dependency\'s require', function () {
             var mime, exports;
-            mime = new Mime()
+            mime = new Mime();
             mime._mockModule('something', ['callSomeFunction']);
-            exports = mime._sandboxRequire('../../testdata/dep4', require);            
+            exports = mime._sandboxRequire('../../testdata/dep4', require);
             mime._unmockModule('something');
         });
         it('should work with getMockedModuleMime', function () {
             var mime, exports;
             mime = Mime.getMockedModuleMime('something');
             mime._mockModule('something', ['callSomeFunction']);
-            exports = mime._sandboxRequire('../../testdata/dep4', require);            
+            exports = mime._sandboxRequire('../../testdata/dep4', require);
             mime._unmockModule('something');
         });
     });
