@@ -51,7 +51,7 @@
     "gulp": "~3.2.4",
     "gulp-mocha": "*",
     "gulp-jshint": "*",
-    "gulp-blanket-mocha": "*",
+    "gulp-coverage": "*",
     "gulp-util": "~2.2.0",
     "through": "~2.3.0",
     "mocha": "~1.16.2"

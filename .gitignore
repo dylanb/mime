@@ -3,3 +3,5 @@ node_modules
 docs
 mocked_modules
 coverage.html
+.coverrun
+.coverdata

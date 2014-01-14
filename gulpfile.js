@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
     exec = require('child_process').exec,
-    blanket = require('gulp-blanket-mocha'),
+    cover = require('gulp-coverage'),
     mocha = require('gulp-mocha'),
     jshint = require('gulp-jshint');
 
@@ -30,13 +30,16 @@ gulp.task('docs', function () {
 
 gulp.task('mochaTest', function () {
     gulp.src(['tests/**/*.js'], { read: false })
+        .pipe(cover.instrument({
+            filePattern: 'mime/mime.js',
+            ignoreFiles: undefined
+        }))
         .pipe(mocha({
             reporter: 'spec'
         }))
-        .pipe(blanket({
-            instrument:['mime/mime.js'],
-            captureFile: 'coverage.html',
-            reporter: 'html-cov'
+        .pipe(cover.report({
+            outFile: 'coverage.html',
+            reporter: 'html'
         }))
 });
 
