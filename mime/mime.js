@@ -431,7 +431,6 @@ var safeObject = global.safeObject = function(f) {
         this.__exports = this.__exports || {};
         exports = this.__exports[name] || {this:this};
 
-        console.log('before purge: ', exports);
         for (attr in exports) {
             if (attr !== 'this') {
                 // Remove the symbol from the exported symbols
@@ -445,7 +444,6 @@ var safeObject = global.safeObject = function(f) {
                 delete this.__callsMade[attr];
             }
         }
-        console.log('after purge: ', exports);
         __registerModule(name, exports);
     };
 
@@ -530,7 +528,7 @@ var safeObject = global.safeObject = function(f) {
                 // Call the client's constructor
                 constructor.apply(this, arguments);
 
-                // Log the call to the constructor aainst the special "Class" method
+                // Log the call to the constructor against the special "Class" method
                 this.__logCall('Class', arguments ? Array.prototype.splice.call(arguments, 0, arguments.length) : undefined);
             });
 

@@ -31,8 +31,8 @@ gulp.task('docs', function () {
 gulp.task('mochaTest', function () {
     gulp.src(['tests/**/*.js'], { read: false })
         .pipe(cover.instrument({
-            filePattern: 'mime/mime.js',
-            ignoreFiles: undefined
+            pattern: ['**/mime/mime.js', '**/mime/sandbox.js'],
+            debugDirectory: 'debug'
         }))
         .pipe(mocha({
             reporter: 'spec'

@@ -239,7 +239,7 @@ describe('mime.js', function() {
         it('should be able to handle multiple modules independently', function () {
             var noexist = Mime.getMockedModuleMime('noexist'),
                 other = Mime.getMockedModuleMime('other'),
-                dependency, failed = true;
+                dependency;
             noexist._mockModule('noexist', ['callMe']);
             other._mockModule('other', ['callMe']);
             other._unmockModule('other');
