@@ -204,7 +204,7 @@ describe('mime.js', function() {
         it('will return an array of empty array(s) if no arguments were passed to the call at the index', function () {
             var mime = new Mime();
             mime.newFunction();
-            assert.deepEqual(mime._getAllCallArguments('newFunction'), [[]],
+            assert.deepEqual(mime._getAllCallArguments('newFunction')[0], [],
                 'Should return [[]]');
         });
 
@@ -212,7 +212,8 @@ describe('mime.js', function() {
             var mime = new Mime();
             mime.newFunction();
             mime.newFunction(1, 2, 3);
-            assert.deepEqual(mime._getAllCallArguments('newFunction'), [[], [1, 2, 3]],
+            assert.deepEqual(mime._getAllCallArguments('newFunction')[0], [])
+            assert.deepEqual(mime._getAllCallArguments('newFunction')[1], [1, 2, 3],
                 'Should return array of argument arrays');
         });
     });
@@ -355,6 +356,14 @@ describe('mime.js', function() {
             mime._mockModule('something', ['callSomeFunction']);
             exports = mime._sandboxRequire('../../testdata/dep4', require);
             mime._unmockModule('something');
+        });
+        it('should expose the required globals to the sandboxed module', function () {
+            var mime, exports;
+            mime = Mime.getMockedModuleMime('globals');
+            mime._mockModule('globals', ['callSomeFunction']);
+            exports = mime._sandboxRequire('../../testdata/dep5', require, { globalVar : 'dylan' });
+            assert.ok(mime._wasCalledWithArguments('callSomeFunction', 'dylan'));
+            mime._unmockModule('globals');
         });
     });
 });
